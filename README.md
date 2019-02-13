@@ -11,6 +11,12 @@ A manifest.json is typically a file that is produced by a bundler like webpack a
 }
 ```
 
+## Installation
+Install via composer:
+```
+composer require dimezilla/wp_manifest_loader
+```
+
 ## How to use?
 It's pretty simple. For the purpose of the following example, I'm going to assume that you are using this in a plugin.
 
@@ -36,7 +42,7 @@ add_action('wp_enqueue_scripts', function () use ($loader) {
 });
 ```
 
-Register assets by default automatically enqueues the assets it finds. To prevent this from happening you can call register assets like so:
+`registerAssets` by default automatically enqueues the assets it finds. To prevent this from happening you can call register assets like so:
 ```
 add_action('wp_enqueue_scripts', function () use ($loader) {
     $loader->registerAssets(fales);
