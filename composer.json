@@ -1,0 +1,16 @@
+{
+    "name": "dimezilla/wp_manifest_loader",
+    "description": "A package intended for wordpress that provides an automatic way to register and enqueue scripts read via a manifest file built by a npm bundler service",
+    "license": "MIT",
+    "autoload": {
+      "psr-4": { "MANIFEST_LOADER\\" : "src/" }
+    },
+    "authors": [
+        {
+            "name": "dimezilla",
+            "email": "diamond.joshh@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
