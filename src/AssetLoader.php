@@ -46,7 +46,7 @@ class AssetLoader {
      * Storage for the wp script dependencies
      * @var array
      */
-    protected $script_deps = ['jquery'];
+    protected $script_deps = [];
 
     /**
      * Storage for our registered asset handles
@@ -66,6 +66,8 @@ class AssetLoader {
      */
     protected $registered_style_assets = [];
 
+    protected $config = [];
+
     /**
      * Constructs our loader
      * @param string $plugin_url        the url to the the present project path
@@ -82,6 +84,32 @@ class AssetLoader {
         $this->manifest_filename = $manifest_filename;
         $this->version = $version;
         $this->tag_prefix = $tag_prefix;
+
+        $this->loadConfig();
+    }
+
+    /**
+     * Check to see if there is a config file and if so, load it
+     * @return void
+     */
+    protected function loadConfig() {
+        $config_file = join(DIRECTORY_SEPARATOR, [$this->plugin_path, 'asset-loader.config.json']);
+        if (file_exists($config_file)) {
+            $this->config = json_decode(file_get_contents($config_file), TRUE);
+            // if the config file exists but is invalid json, throw an error
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new \Exception('DECODING the config file failed');
+            }
+        }
+    }
+
+    /**
+     * checks to see if config is available for a script
+     * @param  string $script  the script that has dependencies
+     * @return array
+     */
+    protected function getScriptConfig($script) {
+        return isset($this->config[$script]) ? $this->config[$script] : [];
     }
 
     /**
@@ -141,19 +169,38 @@ class AssetLoader {
      */
     public function registerAssets($enqueue = true) {
         $this->readManifest();
-        foreach ($this->asset_map as $handle => $file) {
-            $handle = $this->prefixHandle($handle);
+
+        foreach ($this->asset_map as $script => $file) {
+            $handle = $this->prefixHandle($script);
             $url = $this->makeDistributionFileUrl($file);
+
+            $config = $this->getScriptConfig($script);
+
+            $dependencies = $this->script_deps;
+            if (isset($config['dependencies']) && is_array($config['dependencies'])) {
+                $dependencies = $config['dependencies'];
+            }
+
+            $version = $this->version;
+            if (isset($config['version']) && is_string($config['version'])) {
+                $dependencies = $config['version'];
+            }
 
             // put js in registeredAssets and use wp_register_script
             if (strpos($file, '.js') !== false) {
-                \wp_register_script($handle, $url, $this->script_deps, $this->version);
+                \wp_register_script($handle, $url, $dependencies, $version);
                 $this->registered_assets[] = $handle;
+                continue;
+            }
+
+            $media = 'all';
+            if (isset($config['media']) && is_string($config['version'])) {
+                $media = $config['media'];
             }
 
             // put css in registeredStyleAssets and use wp_register_script
             if (strpos($file, '.css') !== false) {
-                \wp_register_style($handle, $url, [], $this->version, 'all');
+                \wp_register_style($handle, $url, $dependencies, $version, $media);
                 $this->registered_style_assets[] = $handle;
             }
         }
