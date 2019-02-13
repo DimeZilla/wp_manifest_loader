@@ -22,7 +22,7 @@ It's pretty simple. For the purpose of the following example, I'm going to assum
 
 1) The first thing you should do is create the class:
 ```
-$loader = new AssetLoader(\plugin_dir_url(__FILE__), dirname(__FILE__), 'radcampagin', '0.0');
+$loader = new MANIFEST_LOADER\AssetLoader(\plugin_dir_url(__FILE__), dirname(__FILE__), 'radcampagin', '0.0');
 ```
 
 Here's all of the arguments that the assetloader takes in the order in which they are accepted:
