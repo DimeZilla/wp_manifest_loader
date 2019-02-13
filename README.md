@@ -45,7 +45,7 @@ add_action('wp_enqueue_scripts', function () use ($loader) {
 `registerAssets` by default automatically enqueues the assets it finds. To prevent this from happening you can call register assets like so:
 ```
 add_action('wp_enqueue_scripts', function () use ($loader) {
-    $loader->registerAssets(fales);
+    $loader->registerAssets(false);
     // do some stuff ....
     $loader->enqueueAssets();
 });
