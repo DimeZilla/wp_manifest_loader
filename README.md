@@ -50,3 +50,22 @@ add_action('wp_enqueue_scripts', function () use ($loader) {
     $loader->enqueueAssets();
 });
 ```
+
+## Advanced configuration
+This package has support for a `asset-loader.config.json` to be placed in the same director as the `$plugin_path` setting when the class is instantiated. This file must be valid json and is a dictionary keyed by the script key found in the manifest file. Borrowing from our example above, here's what a possible configuration might look like:
+```
+{
+    "main.js": {
+        "dependencies": ["jquery", "lodash"],
+        "version": "0.1",
+        "in_footer": true
+    },
+    "main.css": {
+        "dependencies": ["bootstrap"],
+        "version": "1.0",
+        "media": "screen"
+    }
+}
+```
+
+This file would register our main.js script with the jquery and lodash dependencies. It would assign a version of 0.1, and load the script in the footer. This would also register main.css with the a bootstrap dependency, give it a version of 1.0 and specify a "screen" media for the css.

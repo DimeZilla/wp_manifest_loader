@@ -183,12 +183,17 @@ class AssetLoader {
 
             $version = $this->version;
             if (isset($config['version']) && is_string($config['version'])) {
-                $dependencies = $config['version'];
+                $version = $config['version'];
             }
 
             // put js in registeredAssets and use wp_register_script
             if (strpos($file, '.js') !== false) {
-                \wp_register_script($handle, $url, $dependencies, $version);
+                $in_footer = false;
+                if (isset($config["in_footer"]) && is_boolean($config["in_footer"])) {
+                    $in_footer = $config["in_footer"];
+                }
+
+                \wp_register_script($handle, $url, $dependencies, $version, $in_footer);
                 $this->registered_assets[] = $handle;
                 continue;
             }
