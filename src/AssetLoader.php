@@ -66,6 +66,15 @@ class AssetLoader {
      */
     protected $registered_style_assets = [];
 
+    /**
+     * Constructs our loader
+     * @param string $plugin_url        the url to the the present project path
+     * @param string $plugin_path       the path to the present project
+     * @param string $tag_prefix        the tag prefix for the project
+     * @param string $version           the version number associated with the assets
+     * @param string $distribution_path the path from the project root to the distribution files and where the manifest.json is located
+     * @param string $manifest_filename the name of the manifest.json file in case it has a different name
+     */
     public function __construct($plugin_url, $plugin_path, $tag_prefix = '', $version = '', $distribution_path = 'dist', $manifest_filename = 'manifest.json') {
         $this->plugin_url = $plugin_url;
         $this->plugin_path = $plugin_path;
