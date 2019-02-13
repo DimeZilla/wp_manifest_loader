@@ -189,7 +189,7 @@ class AssetLoader {
             // put js in registeredAssets and use wp_register_script
             if (strpos($file, '.js') !== false) {
                 $in_footer = false;
-                if (isset($config["in_footer"]) && is_boolean($config["in_footer"])) {
+                if (isset($config["in_footer"]) && is_bool($config["in_footer"])) {
                     $in_footer = $config["in_footer"];
                 }
 
