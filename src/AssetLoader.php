@@ -81,6 +81,8 @@ class AssetLoader
      * @param string $version           the version number associated with the assets
      * @param string $distribution_path the path from the project root to the distribution files and where the manifest.json is located
      * @param string $manifest_filename the name of the manifest.json file in case it has a different name
+     * @param boolean $load_config      look for a config file and load it automatically
+     * @param boolean $read_manifest    look for the manifest and read it automatically
      */
     public function __construct($plugin_url = '', $plugin_path = '', $tag_prefix = '', $version = '', $distribution_path = '', $manifest_filename = '', $load_config = true, $read_manifest = true)
     {
@@ -123,6 +125,7 @@ class AssetLoader
      * @param string $tag_prefix        the tag prefix for the project
      * @param string $version           the version number associated with the assets
      * @param string $distribution_path the path from the project root to the distribution files and where the manifest.json is located
+     * @param string $manifest_filename the name of the manifest.json file in case it has a different name
      * @param boolean $load_config      look for a config file and load it automatically
      * @param boolean $read_manifest    look for the manifest and read it automatically
      * @return self
@@ -181,7 +184,7 @@ class AssetLoader
      * their association in assetMap
      * @return void
      */
-    protected function readManifest()
+    public function readManifest()
     {
         $manifest = join(
             DIRECTORY_SEPARATOR,
