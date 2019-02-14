@@ -1,0 +1,7 @@
+{
+    "main.js": {
+        "dependencies": ["jquery", "popup-maker-site"],
+        "version": "0.1",
+        "in_footer": false
+    }
+}
